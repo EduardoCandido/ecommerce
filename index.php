@@ -27,7 +27,7 @@ $app->get('/admin', function() {
 	
 });
 
-$app->get('/admin/login',function(){
+$app->get('/admin/login', function(){
 
 	$page = new PageAdmin([
 		"header"=>false,
@@ -36,7 +36,7 @@ $app->get('/admin/login',function(){
 	$page->setTpl("login");
 });
 
-$app->post('/admin/login',function(){
+$app->post('/admin/login', function(){
 
 	User::login($_POST['login'], $_POST['password']);
 
@@ -45,11 +45,61 @@ $app->post('/admin/login',function(){
 
 });
 
-$app->get('/admin/logout',function(){
+$app->get('/admin/logout', function(){
 	User::logout();
 	header("Location: /admin/login");
 	exit;
 });
+
+$app->get('/admin/users', function(){
+	
+	User::verifyLogin();
+	$users = User::listAll();
+
+	$page = new PageAdmin();
+	$page->setTpl("users",array(
+		"users"=>$users
+	));
+	exit;
+});
+
+$app->get('/admin/users/create', function(){
+	
+	User::verifyLogin();
+	$page = new PageAdmin();
+	$page->setTpl("users-create");
+	exit;
+});
+
+$app->get('/admin/users/:iduser/delete', function($iduser){
+
+	User::verifyLogin();
+});
+
+$app->get('/admin/users/:iduser', function($iduser){
+	
+	User::verifyLogin();
+
+	$user = new User();
+	
+	$page = new PageAdmin();
+	$page->setTpl("users-update");
+	exit;
+});
+
+$app->post('/admin/users/create', function(){//Recebe os dados do /admin/users/create
+
+	User::verifyLogin();
+
+});
+
+$app->post('/admin/users/:iduser', function($iduser){
+	
+	User::verifyLogin();
+});
+
+
+
 
 $app->run();
 

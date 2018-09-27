@@ -2,9 +2,15 @@
 namespace Hcode\Model;
 use \Hcode\DB\Sql;
 use \Hcode\Model;
+
 class User extends Model {
 
     const SESSION = "User";
+    protected $fields = [
+
+        "iduser", "idperson", "deslogin", "despassword", "inadmin", "dtergister", "desperson", "nrphone", "desemail"
+        
+    ];
 
     public static function login($login,$password){
         
@@ -52,6 +58,14 @@ class User extends Model {
 
         $_SESSION[User::SESSION] = NULL;
     }
+
+    public static function listAll(){//Método para receber todos os usuários do BD
+
+        $sql = new Sql();
+        return $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b USING(idperson) ORDER BY b.desperson");
+
+    }
+    
 
 
 }
