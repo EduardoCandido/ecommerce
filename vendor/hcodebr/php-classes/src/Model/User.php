@@ -169,7 +169,6 @@ class User extends Model {
     }
         public static function validForgotDecrypt($result){
 
-            base64_decode($code);
             $result = base64_decode($result);
             $code = mb_substr($result, openssl_cipher_iv_length('aes-256-cbc'), null, '8bit');
             $iv = mb_substr($result, 0, openssl_cipher_iv_length('aes-256-cbc'), '8bit');;
@@ -187,7 +186,7 @@ class User extends Model {
                     AND
                     a.dtrecovery IS NULL
                     AND
-                    DATE_ADD(a.dtregister, INTERVAL 1 HOUR) >= NOW();
+                    DATE_ADD(a.dtregister, INTERVAL 10 HOUR) >= NOW();
                 ", array(
                     ":idrecovery"=>$idrecovery
             ));

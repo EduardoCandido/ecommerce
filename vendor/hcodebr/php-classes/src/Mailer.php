@@ -2,12 +2,12 @@
 
 namespace Hcode;
 use \Rain\Tpl;
-
+use \PHPMailer;
 
 class Mailer {
 
     const USERNAME = "candido.desenvolvimentoweb@gmail.com";
-    const PASSWORD = "";
+    const PASSWORD = "Dudusc123";
     const NAMEFROM = "WEB Candido";
 
     private $mail;
