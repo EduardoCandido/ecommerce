@@ -7,7 +7,7 @@ use \PHPMailer;
 class Mailer {
 
     const USERNAME = "candido.desenvolvimentoweb@gmail.com";
-    const PASSWORD = "Dudusc123";
+    const PASSWORD = "";
     const NAMEFROM = "WEB Candido";
 
     private $mail;
