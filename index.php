@@ -176,9 +176,25 @@ $app->get('/admin/forgot/reset',function()
 	]);
 	$page->setTpl("forgot-reset",array(
 		"name"=>$user['desperson'],
-		"code"=>$GET['REMOTE_ADDR']
+		"code"=>$_SERVER['REMOTE_ADDR']
 	));
 
+});
+
+$app->post('/admin/forgot/reset',function(){
+	$forgot = User::validForgotDecrypt($_POST['code']);
+	User::setForgotUsed($forgot["idrecovery"]);
+
+	$user = new User();
+	$user->get((int)$forgot['iduser']);
+
+	$user->setPassword($_POST['password']);
+
+	$page = new PageAdmin([
+		"header"=>false,
+		"footer"=>false
+	]);
+	$page->setTpl("forgot-reset-success");
 });
 
 
