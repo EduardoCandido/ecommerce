@@ -9,7 +9,7 @@ class User extends Model {
     const SECRET = "Hcodecommerce_16";
     
 
-    public static function login($login,$password){
+    public static function login($login,$password){ //Verifica o Login do usuário se existe/é válido ou não 
         
         $sql = new Sql();
         $results = $sql->select("SELECT * FROM tb_users WHERE deslogin = :LOGIN ",array(
@@ -34,7 +34,7 @@ class User extends Model {
         }
     }
 
-    public static function verifyLogin($inadmin = true){
+    public static function verifyLogin($inadmin = true){ //Verifica se o usuário e Administrador ou não
 
         if(
             !isset($_SESSION[User::SESSION])
@@ -51,7 +51,7 @@ class User extends Model {
 
     }
 
-    public static function logout(){
+    public static function logout(){ // Desloga o Usuário no Sistema
 
         $_SESSION[User::SESSION] = NULL;
     }
@@ -62,7 +62,7 @@ class User extends Model {
         return $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b USING(idperson) ORDER BY b.desperson");
 
     }
-    public function get($iduser)
+    public function get($iduser) //Seleciona um usuário de acordo com o id (Geralmente passado como parametro na URL)
     {
      
         $sql = new Sql();
@@ -77,7 +77,7 @@ class User extends Model {
      
      }
 
-     public function save()
+     public function save() //Cria um novo usuário no Banco de Dados
      {
          $sql = new Sql();
 
@@ -93,7 +93,7 @@ class User extends Model {
 
          $this->setData($results[0]);
      }
-     public function update()
+     public function update() //Altera os valores do Usuario no BD
      {
         $sql = new Sql();
 
@@ -119,7 +119,7 @@ class User extends Model {
          ));
      }
 
-    public static function getForgot($email, $inadmin = true)
+    public static function getForgot($email, $inadmin = true) //Vai verificar se existe o email no BD e enviar pro email instruçoes de como recuperar a senha
     {
         $sql = new Sql();
         $results = $sql->select("
@@ -165,7 +165,7 @@ class User extends Model {
             }
         }
     }
-    public static function validForgotDecrypt($result)
+    public static function validForgotDecrypt($result) //Vai validar a URL enviada para o email, para recuperar a senha
     {
         $result = base64_decode($result);
         $code = mb_substr($result, openssl_cipher_iv_length('aes-256-cbc'), null, '8bit');
@@ -196,7 +196,7 @@ class User extends Model {
         }
     }
 
-    public static function setForgotUsed($idrecovery){
+    public static function setForgotUsed($idrecovery){ //Vai gravar no BD se o link já foi usado
 
         $sql = new Sql();
         $sql->query("UPDATE tb_userspasswordsrecoveries SET dtrecovery = NOW() WHERE idrecovery = :idrecovery", array(
@@ -205,7 +205,7 @@ class User extends Model {
 
     }
 
-    public function setPassword($password){
+    public function setPassword($password){ //Vai criar uma nova senha no BD
         $sql = new Sql();
         $sql->query("UPDATE tb_users SET despassword = :password WHERE iduser = :iduser",array(
             ":password"=>$password,
