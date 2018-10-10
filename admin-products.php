@@ -65,10 +65,10 @@ $app->post('/admin/products/:idproduct',function($idproduct){
 
 $app->get('/admin/products/:idproduct/delete',function($idproduct){
     User::verifyLogin();
+    
     $product = new Product();
     $product->get((int)$idproduct);
     $product->delete();
-
     
     header("Location: /admin/products");
     exit;
