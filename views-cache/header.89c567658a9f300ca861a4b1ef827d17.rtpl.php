@@ -13,7 +13,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="/res/admin/bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
@@ -258,6 +258,7 @@ desired effect
         <!-- Optionally, you can add icons to the links -->
         <li class=""><a href="/admin/users"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
         <li class=""><a href="/admin/categories"><i class="fa fa-clipboard"></i> <span>Categorias</span></a></li>
+        <li class=""><a href="/admin/products"><i class="fa fa-boxes"></i> <span>Produtos</span></a></li>
 
         
         <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
