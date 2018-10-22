@@ -6,7 +6,7 @@ use \Hcode\Mailer;
 class User extends Model {
 
     const SESSION = "User";
-    const SECRET = "Hcodecommerce_16";
+    const SECRET = "";
     
 
     public static function login($login,$password){ //Verifica o Login do usuário se existe/é válido ou não 
