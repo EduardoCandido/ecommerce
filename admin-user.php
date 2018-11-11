@@ -56,11 +56,14 @@ $app->get('/admin/users/:iduser', function($iduser){
 
 $app->post('/admin/users/create', function(){//Recebe os dados do template admin-users-create
 
+	
+	
 	User::verifyLogin();
 
 	$user = new User();
 	
 	$_POST['inadmin'] = (isset($_POST['inadmin']))?1:0;
+
 
 	$_POST['despassword'] = password_hash($_POST["despassword"], PASSWORD_DEFAULT, [
 
@@ -72,7 +75,7 @@ $app->post('/admin/users/create', function(){//Recebe os dados do template admin
 	$user->setData($_POST);
 	
 	$user->save();
-
+	
 	header("Location: /admin/users");
 	exit;
 

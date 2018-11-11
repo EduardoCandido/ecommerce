@@ -111,7 +111,7 @@ $app->get('/admin/categories/:idcategory/products/:idproduct/add',function($idca
 
 	$category->addProduct($product);
 
-	header("Location: /admin/categories/".$idproduct."/products");
+	header("Location: /admin/categories/".$idcategory."/products");
 	exit;
 });//Para adicionar um produto na categoria
 
@@ -127,7 +127,7 @@ $app->get('/admin/categories/:idcategory/products/:idproduct/remove',function($i
 	$category->removeProduct($product);
 
 
-	header("Location: /admin/categories/".$idproduct."/products");
+	header("Location: /admin/categories/".$idcategory."/products");
 	exit;
 });//Para remover um produto na categoria
 
