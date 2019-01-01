@@ -16,7 +16,8 @@ class User extends Model {
             $user->setData($_SESSION[User::SESSION]);
         }
 
-        return $user;
+        
+
     }
 
     public static function checkLogin($inadmin = true){
@@ -35,8 +36,10 @@ class User extends Model {
             if($inadmin === true && (bool)$_SESSION[User::SESSION]['inadmin'] === true ){
 
                 return true;
+            
             }else if($inadmin === false){
                 return true;
+            
             }else{
                 return false;
             }
@@ -46,9 +49,7 @@ class User extends Model {
     public static function login($login,$password){ //Verifica o Login do usuário se existe/é válido ou não 
         
         $sql = new Sql();
-        $results = $sql->select("SELECT * FROM tb_users WHERE deslogin = :LOGIN ",array(
-            ":LOGIN"=>$login
-        ));
+        $results = $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b ON a.idperson = b.idperson WHERE a.deslogin = :LOGIN", array(	":LOGIN"=>$login));
 
         if(count($results) === 0){
             throw new \Exception("Usuário inexistente ou senha inválida");
@@ -71,7 +72,12 @@ class User extends Model {
     public static function verifyLogin($inadmin = true){ //Verifica se o usuário e Administrador ou não
 
         if(!User::checkLogin($inadmin)){
-            header("Location: /admin/login");
+            
+            if($inadmin){
+                header("Location: /admin/login");
+            }else{
+                header("Location: /login");
+            }
             exit;
         }
 

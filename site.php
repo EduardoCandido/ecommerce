@@ -8,6 +8,7 @@ use \Hcode\Mailer;
 use \Hcode\Model\Product;
 use \Hcode\Model\Category;
 use \Hcode\Model\Cart;
+use \Hcode\Model\Address;
 
 $app->get('/', function() {
 	
@@ -122,6 +123,46 @@ $app->post('/cart/freight',function(){
 
 	header("Location: /cart");
 	exit;
+});
+
+$app->get("/checkout", function(){
+
+	User::verifyLogin(false);
+
+	$cart = Cart::getFromSession();
+
+	$address = new Address();
+
+	$page = new Page();
+
+	$page->setTpl("checkout",[
+		"cart"=>$cart->getValues(),
+		"address"=>$address->getValues()
+
+	]);
+});
+
+$app->get("/login", function(){
+
+	$page = new Page();
+
+	$page->setTpl("login",[
+		"error"=>Cart::getMsgError()
+	]);
+});
+
+$app->post("/login", function(){
+
+	try{
+
+		User::login($_POST["login"],$_POST["password"]);
+	}catch(Exception $e){
+
+		User::setError($e->getMessage());
+	}
+
+	header("Location: /checkout");
+	exit;
 
 });
 
@@ -130,11 +171,7 @@ $app->post('/cart/freight',function(){
 
 
 $app->get('/teste',function(){
-	$product = new Product();
-
-	$product->get(6);
-
-	var_dump($product->getValues());
+	User::login("admin","admin");
 });
 
 
