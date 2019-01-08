@@ -7,6 +7,7 @@ class User extends Model {
 
     const SESSION = "User";
     const SECRET = "Hcodecommerce_16";
+    const ERROR_REGISTER = "UserErrorRegister";
 
     public static function getFromSession(){
         
@@ -16,7 +17,7 @@ class User extends Model {
             $user->setData($_SESSION[User::SESSION]);
         }
 
-        
+        return $user;
 
     }
 
@@ -114,7 +115,7 @@ class User extends Model {
          $sql = new Sql();
 
          $results = $sql->select("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :desinadmin)", array(
-             ":desperson"=>$this->getdesperson(),
+             ":desperson"=>utf8_encode($this->getdesperson()),
              ":deslogin"=>$this->getdeslogin(),
              ":despassword"=>$this->getdespassword(),
              ":desemail"=>$this->getdesemail(),
@@ -130,7 +131,7 @@ class User extends Model {
         $sql = new Sql();
 
         $results = $sql->select("CALL sp_usersupdate_save(:iduser, :desperson, :deslogin, :despassword, :desemail, :nrphone, :desinadmin)", array(
-            ":desperson"=>$this->getdesperson(),
+            ":desperson"=> utf8_decode($this->getdesperson()),
             ":iduser"=>$this->getiduser(),
             ":deslogin"=>$this->getdeslogin(),
             ":despassword"=>$this->getdespassword(),
@@ -245,6 +246,44 @@ class User extends Model {
         ));
 
     }
+
+    public static function setErrorRegister($msg)
+	{
+
+		$_SESSION[User::ERROR_REGISTER] = $msg;
+
+	}
+
+	public static function getErrorRegister()
+	{
+
+		$msg = (isset($_SESSION[User::ERROR_REGISTER]) && $_SESSION[User::ERROR_REGISTER]) ? $_SESSION[User::ERROR_REGISTER] : '';
+
+		User::clearErrorRegister();
+
+		return $msg;
+
+	}
+
+	public static function clearErrorRegister()
+	{
+
+		$_SESSION[User::ERROR_REGISTER] = NULL;
+
+    }
+    
+    public static function checkLoginExist($login)
+	{
+
+		$sql = new Sql();
+
+		$results = $sql->select("SELECT * FROM tb_users WHERE deslogin = :deslogin", [
+			':deslogin'=>$login
+		]);
+
+		return (count($results) > 0);
+
+	}
 }
 
 ?>
