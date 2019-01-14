@@ -109,6 +109,13 @@ class User extends Model {
         $this->setData($data);
      
      }
+     public static function getPasswordHash($password)
+    {
+ 
+    return password_hash($password, PASSWORD_DEFAULT, [
+        'cost'=>12
+    ]);
+    }
 
      public function save() //Cria um novo usuário no Banco de Dados
      {
@@ -117,7 +124,7 @@ class User extends Model {
          $results = $sql->select("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :desinadmin)", array(
              ":desperson"=>utf8_encode($this->getdesperson()),
              ":deslogin"=>$this->getdeslogin(),
-             ":despassword"=>$this->getdespassword(),
+             ":despassword"=>User::getPasswordHash($this->getdespassword()),
              ":desemail"=>$this->getdesemail(),
              ":nrphone"=>$this->getnrphone(),
              ":desinadmin"=>$this->getinadmin()
@@ -185,9 +192,13 @@ class User extends Model {
                 $code = openssl_encrypt($dataRecovery['idrecovery'], 'aes-256-cbc', User::SECRET, 0, $iv);
                 $result = base64_encode($iv.$code);
                 if ($inadmin === true) {
+
                     $link = "http://www.hcodecommerce.com.br/admin/forgot/reset?code=$result";
+
                 } else {
+
                     $link = "http://www.hcodecommerce.com.br/forgot/reset?code=$result";
+                    
                 } 
                 $mailer = new Mailer($data['desemail'], $data['desperson'], "Redefinir senha da Hcode Store", "forgot", array(
                     "name"=>$data['desperson'],

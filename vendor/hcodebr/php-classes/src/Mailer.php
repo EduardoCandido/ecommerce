@@ -7,7 +7,7 @@ use \PHPMailer;
 class Mailer {
 
     const USERNAME = "candido.desenvolvimentoweb@gmail.com";
-    const PASSWORD = "";
+    const PASSWORD = "Dudusc123";
     const NAMEFROM = "WEB Candido";
 
     private $mail;
@@ -37,6 +37,14 @@ class Mailer {
 
         //Tell PHPMailer to use SMTP
         $this->mail->isSMTP();
+        
+        $this->mail->SMTPOptions = array(
+            'ssl' => array(
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            )
+        );
 
         //Enable SMTP debugging
         // 0 = off (for production use)
@@ -86,7 +94,6 @@ class Mailer {
 
         //Attach an image file
         //$this->mail->addAttachment('images/phpmailer_mini.png');
-
        
 
     }
