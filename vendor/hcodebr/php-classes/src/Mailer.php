@@ -37,7 +37,6 @@ class Mailer {
 
         //Tell PHPMailer to use SMTP
         $this->mail->isSMTP();
-        
         $this->mail->SMTPOptions = array(
             'ssl' => array(
                 'verify_peer' => false,
