@@ -6,6 +6,7 @@ use \Hcode\Model;
 class Address extends Model {
 
 
+        $sql = new Sql();
 
     
 }
